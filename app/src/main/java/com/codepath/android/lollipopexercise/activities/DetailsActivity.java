@@ -55,6 +55,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
                 // Instruct Glide to load the bitmap into the `holder.ivProfile` profile image view
+                //context: adapter, this: activity
                 Glide.with(DetailsActivity.this).asBitmap().load(resource).centerCrop().into(ivProfile);
                 // Use generate() method from the Palette API to get the vibrant color from the bitmap
                 // Set the result as the background color for `holder.vPalette` view containing the contact's name.
@@ -74,6 +75,7 @@ public class DetailsActivity extends AppCompatActivity {
                 // can leave empty
             }
         };
+
         // Instruct Glide to load the bitmap into the asynchronous target defined above
         Glide.with(DetailsActivity.this).asBitmap().load(mContact.getThumbnailDrawable()).centerCrop().into(target);
 
