@@ -3,5 +3,7 @@
 
     <string name="app_name">Material Design Exercise</string>
     <string name="title_activity_details">DetailsActivity</string>
+    <string name="snackbar_text">new contact added</string>
+    <string name="snackbar_action">undo</string>
 
 </resources>

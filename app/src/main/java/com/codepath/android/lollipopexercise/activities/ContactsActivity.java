@@ -3,14 +3,18 @@ package com.codepath.android.lollipopexercise.activities;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.codepath.android.lollipopexercise.R;
 import com.codepath.android.lollipopexercise.adapters.ContactsAdapter;
 import com.codepath.android.lollipopexercise.models.Contact;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -19,6 +23,8 @@ public class ContactsActivity extends AppCompatActivity {
     private RecyclerView rvContacts;
     private ContactsAdapter mAdapter;
     private List<Contact> contacts;
+    private View.OnClickListener undoListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +52,17 @@ public class ContactsActivity extends AppCompatActivity {
 
         // Bind adapter to list
         rvContacts.setAdapter(mAdapter);
+
+        undoListener = new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                contacts.remove(0);
+                mAdapter.notifyItemRemoved(0);
+
+            }
+        };
+
+
     }
 
     @Override
@@ -63,5 +80,17 @@ public class ContactsActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onComposeAction(MenuItem miAdd){
+        Contact newContact = Contact.getRandomContact(this);
+
+        //adding contacts and notifying the adapter
+        contacts.add(0, newContact);
+        mAdapter.notifyItemInserted(0);
+
+        Snackbar.make(rvContacts, R.string.snackbar_text, Snackbar.LENGTH_LONG)
+                .setAction(R.string.snackbar_action, undoListener).setActionTextColor(ContextCompat.getColor(ContactsActivity.this, R.color.accent))
+                .show(); // Don’t forget to show!
     }
 }
